@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace App.Installers
+namespace DialogCommon.Installer
 {
     public class ProjectInstaller : MonoInstaller<ProjectInstaller>
     {
