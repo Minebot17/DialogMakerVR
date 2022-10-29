@@ -1,5 +1,7 @@
 ﻿using DialogCommon.Manager;
+using DialogCommon.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -14,14 +16,20 @@ namespace DialogCommon.UI.Panel
 
         private DiContainer _container;
         private IPanelManager _panelManager;
-        private ISaveManager _saveManager;
+        private IDialogSaveManager _dialogSaveManager;
+        private ISaveValues _saveValues;
 
         [Inject]
-        private void Inject(DiContainer container, IPanelManager panelManager, ISaveManager saveManager)
+        private void Inject(
+            DiContainer container, 
+            IPanelManager panelManager, 
+            IDialogSaveManager dialogSaveManager,
+            ISaveValues saveValues)
         {
             _container = container;
             _panelManager = panelManager;
-            _saveManager = saveManager;
+            _dialogSaveManager = dialogSaveManager;
+            _saveValues = saveValues;
         }
 
         private void Start()
@@ -39,7 +47,7 @@ namespace DialogCommon.UI.Panel
                 Destroy(_dialogElementsParent.GetChild(i).gameObject);
             }
 
-            foreach (string savedDialogName in _saveManager.SavedDialogNames)
+            foreach (string savedDialogName in _dialogSaveManager.SavedDialogNames)
             {
                 _container
                     .InstantiatePrefabForComponent<DialogsPanelElement>(_dialogElementPrefab, _dialogElementsParent)
@@ -49,13 +57,14 @@ namespace DialogCommon.UI.Panel
 
         private void OnCreateNewDialogClick()
         {
-            _panelManager.ClosePanel<DialogsPanel>();
-            _panelManager.OpenPanel<MainMenuPanel>();
+            _saveValues.OpenedScenarioName = string.Empty;
+            SceneManager.LoadScene(Scenes.MakerScene.GetName());
         }
 
         private void OnBackClick()
         {
-            Application.Quit();
+            _panelManager.ClosePanel<DialogsPanel>();
+            _panelManager.OpenPanel<MainMenuPanel>();
         }
     }
 }

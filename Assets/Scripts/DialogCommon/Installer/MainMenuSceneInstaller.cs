@@ -12,7 +12,6 @@ namespace DialogCommon.Installer
         {
             Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
             Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
-            Container.Bind<ISaveManager>().To<SaveManager>().AsSingle();
         }
     }
 }

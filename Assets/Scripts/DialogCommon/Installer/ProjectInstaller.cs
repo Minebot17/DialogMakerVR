@@ -1,3 +1,4 @@
+using DialogCommon.Manager;
 using Zenject;
 
 namespace DialogCommon.Installer
@@ -6,7 +7,8 @@ namespace DialogCommon.Installer
     {
         public override void InstallBindings()
         {
-            
+            Container.Bind<ISaveValues>().To<SaveValues>().AsSingle();
+            Container.Bind<IDialogSaveManager>().To<DialogSaveManager>().AsSingle();
         }
     }
 
