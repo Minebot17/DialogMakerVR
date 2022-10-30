@@ -210,6 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2764735501528080129}
+  - component: {fileID: -4298936857750442924}
   m_Layer: 0
   m_Name: DialogSceneNode
   m_TagString: Untagged
@@ -240,6 +241,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1.5, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &-4298936857750442924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2764735501528080128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e82c36b703948f0894bf3f817b0aab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nodeText: {fileID: 2764735501209061796}
+  _connectorsParent: {fileID: 2764735500345557962}
+  _connectorPrefab: {fileID: 520587376210523944, guid: f8b911880ffaa33439beef3780f67c4d,
+    type: 3}
 --- !u!1 &2764735501714930371
 GameObject:
   m_ObjectHideFlags: 0

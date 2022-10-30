@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using DialogCommon.Model;
-using DialogCommon.Model.AnswerAction;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -24,21 +23,13 @@ namespace DialogCommon
                         {
                             new AnswerModel
                             {
-                                AnswerActionType = AnswerActionType.TransitionToDialogScene,
-                                AnswerActionModel = new TransitionAnswerActionModel
-                                {
-                                    ToDialogSceneId = 1,
-                                    MainText = "Answer to 1"
-                                }
+                                ToDialogSceneId = 1,
+                                MainText = "Answer to 1"
                             },
                             new AnswerModel
                             {
-                                AnswerActionType = AnswerActionType.TransitionToDialogScene,
-                                AnswerActionModel = new TransitionAnswerActionModel
-                                {
-                                    ToDialogSceneId = 2,
-                                    MainText = "Answer to 2"
-                                }
+                                ToDialogSceneId = 2,
+                                MainText = "Answer to 2"
                             },
                         }
                     },
@@ -50,30 +41,18 @@ namespace DialogCommon
                         {
                             new AnswerModel
                             {
-                                AnswerActionType = AnswerActionType.TransitionToDialogScene,
-                                AnswerActionModel = new TransitionAnswerActionModel
-                                {
-                                    ToDialogSceneId = 2,
-                                    MainText = "Answer to 2"
-                                }
+                                ToDialogSceneId = 2,
+                                MainText = "Answer to 2"
                             },
                             new AnswerModel
                             {
-                                AnswerActionType = AnswerActionType.TransitionToDialogScene,
-                                AnswerActionModel = new TransitionAnswerActionModel
-                                {
-                                    ToDialogSceneId = 3,
-                                    MainText = "Answer to 3"
-                                }
+                                ToDialogSceneId = 3,
+                                MainText = "Answer to 3"
                             },
                             new AnswerModel
                             {
-                                AnswerActionType = AnswerActionType.TransitionToDialogScene,
-                                AnswerActionModel = new TransitionAnswerActionModel
-                                {
-                                    ToDialogSceneId = 4,
-                                    MainText = "Answer to 4"
-                                }
+                                ToDialogSceneId = 4,
+                                MainText = "Answer to 4"
                             },
                         }
                     },

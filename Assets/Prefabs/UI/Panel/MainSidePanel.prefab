@@ -1161,6 +1161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8004022600585364558}
+  - component: {fileID: 2241762258953513343}
   m_Layer: 5
   m_Name: MainSidePanel
   m_TagString: Untagged
@@ -1190,6 +1191,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &2241762258953513343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004022600585364559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3d05d652f4e4885924e97e60580ce80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveNameField: {fileID: 8004022599445530130}
+  _createNewSceneButton: {fileID: 8004022599032846506}
+  _saveScenarioButton: {fileID: 8004022600250811914}
+  _returnToMainMenuButton: {fileID: 8004022599398661626}
 --- !u!1 &8004022600796864577
 GameObject:
   m_ObjectHideFlags: 0
