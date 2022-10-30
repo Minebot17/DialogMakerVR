@@ -24,8 +24,8 @@ namespace DialogCommon.UI.Panel
             DiContainer container, 
             IPanelManager panelManager, 
             IDialogSaveManager dialogSaveManager,
-            ISaveValues saveValues)
-        {
+            ISaveValues saveValues
+        ) {
             _container = container;
             _panelManager = panelManager;
             _dialogSaveManager = dialogSaveManager;

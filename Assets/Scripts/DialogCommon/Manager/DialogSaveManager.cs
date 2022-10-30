@@ -17,7 +17,7 @@ namespace DialogCommon.Manager
                 .Select(str =>
                 {
                     string fileName = new FileInfo(str).Name;
-                    return fileName[..(fileName.Length - DialogScenarioExtension.Length - 1)];
+                    return fileName.Substring(0, fileName.Length - DialogScenarioExtension.Length - 1);
                 })
                 .ToList();
 
