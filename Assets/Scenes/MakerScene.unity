@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panelContainer: {fileID: 710948558}
+  _editorCanvas: {fileID: 917124547}
 --- !u!114 &1643919851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,6 +858,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -230
       objectReference: {fileID: 0}
+    - target: {fileID: 3865342039678552195, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3865342039696557783, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -896,6 +902,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865342039776052445, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3865342039885946822, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
         type: 3}
@@ -941,6 +952,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -125
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865342040669928221, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
+        type: 3}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3865342040669928221, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
+        type: 3}
+      propertyPath: m_GlobalPointSize
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3865342040882684622, guid: 3b4cd1f7eb89fda47b66e6c6a284b99a,
         type: 3}

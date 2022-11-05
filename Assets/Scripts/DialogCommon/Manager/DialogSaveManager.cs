@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Assets.SimpleZip;
 using DialogCommon.Model;
+using DialogCommon.Model.Metadata;
+using DialogCommon.Utils;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -31,9 +34,16 @@ namespace DialogCommon.Manager
             }
         }
         
-        public ScenarioModel LoadDialog(string name)
+        public SaveFileDm LoadDialog(string name)
         {
-            return JsonConvert.DeserializeObject<ScenarioModel>(GetFullScenarioPath(name));
+            string savedJson = Zip.Decompress(File.ReadAllBytes(GetFullScenarioPath(name)));
+            return JsonConvert.DeserializeObject<SaveFileDm>(savedJson);
+        }
+
+        public void SaveDialog(string name, ScenarioModel model, ScenarioMetadataModel metadata)
+        {
+            string saveJson = JsonConvert.SerializeObject(new SaveFileDm(model, metadata));
+            File.WriteAllBytes($"{DialogFolderPath}/{name}.dm", Zip.Compress(saveJson));
         }
 
         public void DeleteDialog(string name)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DialogCommon.Model;
+using DialogCommon.Model.Metadata;
 using UnityEngine;
 
 namespace DialogMaker.Manager
@@ -10,7 +11,10 @@ namespace DialogMaker.Manager
         string Text { get; }
         List<(GameObject, IDialogConnector)> Connectors { get; }
 
-        void Initialize(DialogSceneModel sceneModel);
-        DialogSceneModel Serialize();
+        void Initialize(DialogSceneModel sceneModel, DialogSceneMetadataModel metadata, bool isDefaultNode);
+        void SetSelected(bool isSelected);
+        
+        DialogSceneModel SerializeScene();
+        DialogSceneMetadataModel SerializeMetadata();
     }
 }

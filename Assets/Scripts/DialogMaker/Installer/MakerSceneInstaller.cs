@@ -1,4 +1,5 @@
 ﻿using DialogCommon.Manager;
+using DialogMaker.Manager;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,7 @@ namespace DialogMaker.Installer
         {
             Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
             Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
+            Container.Bind<IMakerManager>().To<MakerManager>().AsSingle();
             Container.Bind<Transform>().WithId("EditorCanvas").FromInstance(_editorCanvas).AsSingle();
         }
     }
