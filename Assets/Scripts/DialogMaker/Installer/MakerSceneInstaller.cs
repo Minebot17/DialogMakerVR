@@ -14,8 +14,9 @@ namespace DialogMaker.Installer
         {
             Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
             Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
-            Container.Bind<IMakerManager>().To<MakerManager>().AsSingle();
+            Container.BindInterfacesTo<MakerManager>().AsSingle();
             Container.Bind<Transform>().WithId("EditorCanvas").FromInstance(_editorCanvas).AsSingle();
+            Container.Bind<Camera>().FromInstance(Camera.main).AsSingle();
         }
     }
 }

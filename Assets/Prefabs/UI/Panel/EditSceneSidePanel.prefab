@@ -1059,6 +1059,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3865342040900757465}
+  - component: {fileID: 2964189675202058304}
   m_Layer: 5
   m_Name: EditSceneSidePanel
   m_TagString: Untagged
@@ -1087,6 +1088,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 100}
   m_SizeDelta: {x: 400, y: -200}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &2964189675202058304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3865342040900757464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e70edda741a48d39fa245c869514db5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainTextField: {fileID: 3865342040669928221}
+  _addAnswerButton: {fileID: 3865342041134831398}
+  _answerEditElement: {fileID: 5845870615394278975, guid: 5291b333be9724a4cbd3a9311906d552,
+    type: 3}
+  _answerEditElementsParent: {fileID: 3865342039885946822}
 --- !u!1 &3865342040932623645
 GameObject:
   m_ObjectHideFlags: 0

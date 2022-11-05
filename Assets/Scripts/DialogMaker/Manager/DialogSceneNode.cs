@@ -1,44 +1,54 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DialogCommon.Manager;
 using DialogCommon.Model;
 using DialogCommon.Model.Metadata;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
 namespace DialogMaker.Manager
 {
-    public class DialogSceneNode : MonoBehaviour, IDialogSceneNode
+    public class DialogSceneNode : MonoBehaviour, IDialogSceneNode, IPointerClickHandler, IPointerMoveHandler, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private TextMeshProUGUI _nodeText;
         [SerializeField] private Transform _connectorsParent;
         [SerializeField] private GameObject _connectorPrefab;
         [SerializeField] private TextMeshProUGUI _defaultNodeText;
         [SerializeField] private Image _backgroundImage;
-
+        
         private DiContainer _container;
-        private ISaveValues _saveValues;
-            
-        private int _id;
+        private IMakerManager _makerManager;
+        private Camera _camera;
+        
         private bool _isSelected;
+        private bool _isMouseDown;
+        private bool _ignoreNextClick;
+        private Vector2 _mouseDownRelativePosition;
 
         public int Id { get; private set; }
-        public string Text => _nodeText.text;
+        public string Text
+        {
+            get => _nodeText.text;
+            set => _nodeText.text = value;
+        }
+
         public List<(GameObject, IDialogConnector)> Connectors { get; } = new();
 
         [Inject]
-        public void Inject(DiContainer container)
+        public void Inject(DiContainer container, IMakerManager makerManager, Camera camera)
         {
             _container = container;
+            _makerManager = makerManager;
+            _camera = camera;
         }
 
         public void Initialize(DialogSceneModel sceneModel, DialogSceneMetadataModel metadata, bool isDefaultNode)
         {
             Id = sceneModel.Id;
             _nodeText.text = sceneModel.MainText;
-            transform.position = metadata.NodePosition;
+            transform.position = new Vector3(metadata.NodePositionX, metadata.NodePositionY, 0);
             
             // spawn connectors
             foreach (var answerModel in sceneModel.Answers)
@@ -52,7 +62,7 @@ namespace DialogMaker.Manager
             _defaultNodeText.gameObject.SetActive(isDefaultNode);
         }
 
-        public void SetSelected(bool isSelected)
+        public void OnSelected(bool isSelected)
         {
             _isSelected = isSelected;
             _backgroundImage.color = isSelected ? new Color(1, 0.8f, 0.8f) : Color.white;
@@ -62,7 +72,7 @@ namespace DialogMaker.Manager
         {
             return new DialogSceneModel
             {
-                Id = _id,
+                Id = Id,
                 MainText = Text,
                 Answers = Connectors.Select(x => x.Item2.Serialize()).ToList()
             };
@@ -72,8 +82,49 @@ namespace DialogMaker.Manager
         {
             return new DialogSceneMetadataModel
             {
-                NodePosition = transform.position
+                Id = Id,
+                NodePositionX = transform.position.x,
+                NodePositionY = transform.position.y
             };
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (_ignoreNextClick)
+            {
+                _ignoreNextClick = false;
+                return;
+            }
+            
+            _makerManager.SelectNode(this);
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            if (!_isMouseDown)
+            {
+                return;
+            }
+            
+            transform.SetAsLastSibling();
+            _ignoreNextClick = true;
+            var newPosition = _camera.ScreenToWorldPoint(eventData.position);
+            transform.position = new Vector3(
+                newPosition.x - _mouseDownRelativePosition.x, 
+                newPosition.y - _mouseDownRelativePosition.y, 
+                transform.position.z);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            _isMouseDown = true;
+            var worldPosition = _camera.ScreenToWorldPoint(eventData.position);
+            _mouseDownRelativePosition = new Vector3(worldPosition.x, worldPosition.y, 0) - transform.position;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            _isMouseDown = false;
         }
     }
 }

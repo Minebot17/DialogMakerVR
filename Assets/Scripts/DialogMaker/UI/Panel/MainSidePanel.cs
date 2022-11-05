@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DialogCommon.Manager;
 using DialogCommon.Model;
+using DialogCommon.Model.Metadata;
 using DialogCommon.Utils;
 using DialogMaker.Manager;
 using TMPro;
@@ -43,11 +44,20 @@ namespace DialogMaker.UI.Panel
 
         private void OnCreateNewSceneClick()
         {
-            var node = _makerManager.SpawnNode(new DialogSceneModel
+            var newSceneModel = new DialogSceneModel
             {
                 Id = Random.Range(int.MinValue, int.MaxValue),
                 Answers = new List<AnswerModel>()
-            });
+            };
+
+            var newSceneMetadataModel = new DialogSceneMetadataModel
+            {
+                Id = newSceneModel.Id,
+                NodePositionX = 0,
+                NodePositionY = 0
+            };
+            
+            var node = _makerManager.SpawnNode(newSceneModel, newSceneMetadataModel);
             
             _makerManager.SelectNode(node);
         }

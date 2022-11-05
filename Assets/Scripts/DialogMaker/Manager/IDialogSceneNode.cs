@@ -8,11 +8,11 @@ namespace DialogMaker.Manager
     public interface IDialogSceneNode
     {
         int Id { get; }
-        string Text { get; }
+        string Text { get; set; }
         List<(GameObject, IDialogConnector)> Connectors { get; }
 
         void Initialize(DialogSceneModel sceneModel, DialogSceneMetadataModel metadata, bool isDefaultNode);
-        void SetSelected(bool isSelected);
+        void OnSelected(bool isSelected);
         
         DialogSceneModel SerializeScene();
         DialogSceneMetadataModel SerializeMetadata();

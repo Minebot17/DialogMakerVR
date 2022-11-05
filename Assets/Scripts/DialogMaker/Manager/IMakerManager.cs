@@ -12,7 +12,7 @@ namespace DialogMaker.Manager
         
         List<(GameObject, IDialogSceneNode)> Nodes { get; }
         
-        IDialogSceneNode SpawnNode(DialogSceneModel sceneModel);
+        IDialogSceneNode SpawnNode(DialogSceneModel sceneModel, DialogSceneMetadataModel metadataModel);
         void SelectNode(IDialogSceneNode sceneNode);
         
         ScenarioModel SerializeScenario();

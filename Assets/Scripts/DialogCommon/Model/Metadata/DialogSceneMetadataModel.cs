@@ -6,6 +6,8 @@ namespace DialogCommon.Model.Metadata
     [Serializable]
     public class DialogSceneMetadataModel
     {
-        public Vector2 NodePosition { get; set; }
+        public int Id { get; set; }
+        public float NodePositionX { get; set; }
+        public float NodePositionY { get; set; }
     }
 }

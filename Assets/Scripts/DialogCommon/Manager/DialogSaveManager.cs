@@ -42,8 +42,9 @@ namespace DialogCommon.Manager
 
         public void SaveDialog(string name, ScenarioModel model, ScenarioMetadataModel metadata)
         {
-            string saveJson = JsonConvert.SerializeObject(new SaveFileDm(model, metadata));
+            string saveJson = JsonConvert.SerializeObject(new SaveFileDm(model, metadata), Formatting.Indented);
             File.WriteAllBytes($"{DialogFolderPath}/{name}.dm", Zip.Compress(saveJson));
+            File.WriteAllText($"{DialogFolderPath}/{name}.json", saveJson);
         }
 
         public void DeleteDialog(string name)
