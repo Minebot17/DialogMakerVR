@@ -90,6 +90,11 @@ namespace DialogMaker.Manager
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+            
             if (_ignoreNextClick)
             {
                 _ignoreNextClick = false;
@@ -117,6 +122,11 @@ namespace DialogMaker.Manager
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+            
             _isMouseDown = true;
             var worldPosition = _camera.ScreenToWorldPoint(eventData.position);
             _mouseDownRelativePosition = new Vector3(worldPosition.x, worldPosition.y, 0) - transform.position;
@@ -124,6 +134,11 @@ namespace DialogMaker.Manager
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+            
             _isMouseDown = false;
         }
     }
