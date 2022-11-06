@@ -9,13 +9,24 @@ namespace DialogMaker.Manager
         [SerializeField] private TextMeshProUGUI _iconText;
 
         public int TransitionSceneId { get; private set; }
-        public string Text { get; private set; }
+        public string Text { get; set; }
+        public int Index { get; private set; }
+
+        private IDialogSceneNode _parent;
 
         public void Initialize(IDialogSceneNode parent, AnswerModel answerModel)
         {
-            _iconText.text = (parent.Connectors.FindIndex(x => x.Item1 == gameObject) + 1).ToString();
+            _parent = parent;
+            UpdateIndex();
+            _iconText.text = Index.ToString();
             TransitionSceneId = answerModel.ToDialogSceneId;
             Text = answerModel.MainText;
+        }
+
+        public void UpdateIndex()
+        {
+            Index = _parent.Connectors.FindIndex(x => x.Item1 == gameObject) + 1;
+            _iconText.text = Index.ToString();
         }
 
         public AnswerModel Serialize()

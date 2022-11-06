@@ -85,6 +85,11 @@ namespace DialogMaker.Manager
             OnNodeSelected?.Invoke(sceneNode);
         }
 
+        public IDialogSceneNode FindNode(int nodeId)
+        {
+            return Nodes.Find(n => n.Item2.Id == nodeId).Item2;
+        }
+
         public ScenarioModel SerializeScenario()
         {
             return new ScenarioModel

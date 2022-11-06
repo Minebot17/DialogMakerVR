@@ -53,10 +53,7 @@ namespace DialogMaker.Manager
             // spawn connectors
             foreach (var answerModel in sceneModel.Answers)
             {
-                var connector = _container.InstantiatePrefab(_connectorPrefab, _connectorsParent);
-                var connectorComponent = connector.GetComponent<IDialogConnector>();
-                connectorComponent.Initialize(this, answerModel);
-                Connectors.Add((connector, connectorComponent));
+                SpawnConnector(answerModel);
             }
             
             _defaultNodeText.gameObject.SetActive(isDefaultNode);
@@ -66,6 +63,23 @@ namespace DialogMaker.Manager
         {
             _isSelected = isSelected;
             _backgroundImage.color = isSelected ? new Color(1, 0.8f, 0.8f) : Color.white;
+        }
+
+        public IDialogConnector CreateNewConnector()
+        {
+            return SpawnConnector(new AnswerModel { MainText = string.Empty, ToDialogSceneId = 0 });
+        }
+
+        public void RemoveConnector(IDialogConnector connector)
+        {
+            var index = Connectors.FindIndex(c => c.Item2 == connector);
+            Destroy(Connectors[index].Item1);
+            Connectors.RemoveAt(index);
+
+            foreach (var tuple in Connectors)
+            {
+                tuple.Item2.UpdateIndex();
+            }
         }
 
         public DialogSceneModel SerializeScene()
@@ -140,6 +154,15 @@ namespace DialogMaker.Manager
             }
             
             _isMouseDown = false;
+        }
+
+        private IDialogConnector SpawnConnector(AnswerModel answerModel)
+        {
+            var connector = _container.InstantiatePrefab(_connectorPrefab, _connectorsParent);
+            var connectorComponent = connector.GetComponent<IDialogConnector>();
+            Connectors.Add((connector, connectorComponent));
+            connectorComponent.Initialize(this, answerModel);
+            return connectorComponent;
         }
     }
 }

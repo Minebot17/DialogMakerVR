@@ -13,6 +13,8 @@ namespace DialogMaker.Manager
 
         void Initialize(DialogSceneModel sceneModel, DialogSceneMetadataModel metadata, bool isDefaultNode);
         void OnSelected(bool isSelected);
+        IDialogConnector CreateNewConnector();
+        void RemoveConnector(IDialogConnector connector);
         
         DialogSceneModel SerializeScene();
         DialogSceneMetadataModel SerializeMetadata();

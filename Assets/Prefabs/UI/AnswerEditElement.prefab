@@ -191,7 +191,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
@@ -945,6 +945,7 @@ GameObject:
   - component: {fileID: 5845870615394278973}
   - component: {fileID: 5845870615394278915}
   - component: {fileID: 5845870615394278914}
+  - component: {fileID: 5223990748291852942}
   m_Layer: 5
   m_Name: AnswerEditElement
   m_TagString: Untagged
@@ -1052,6 +1053,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &5223990748291852942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5845870615394278975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8465547b6f54a6fa071a0276f512bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _removeButton: {fileID: 5845870615137378346}
+  _moveUpButton: {fileID: 5687558770046040711}
+  _moveDownButton: {fileID: 891497230031878316}
+  _connectButton: {fileID: 4910968028119194151}
+  _titleText: {fileID: 5845870616218168586}
+  _mainTextField: {fileID: 3374642767156753886}
+  _connectedText: {fileID: 6991432502257896208}
 --- !u!1 &5845870615420735075
 GameObject:
   m_ObjectHideFlags: 0

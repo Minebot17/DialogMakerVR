@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DialogCommon.Manager;
 using DialogMaker.Manager;
 using TMPro;
@@ -19,6 +20,8 @@ namespace DialogMaker.UI.Panel
         private IMakerManager _makerManager;
         private IPanelManager _panelManager;
             
+        private readonly List<AnswerEditElement> _answerElements = new();
+        
         private IDialogSceneNode _selectedNode;
 
         [Inject]
@@ -27,6 +30,16 @@ namespace DialogMaker.UI.Panel
             _container = container;
             _makerManager = makerManager;
             _panelManager = panelManager;
+        }
+
+        public void OnRemovedAnswerElement(AnswerEditElement answerEditElement)
+        {
+            _answerElements.Remove(answerEditElement);
+            _selectedNode.RemoveConnector(answerEditElement.Connector);
+            
+            foreach (AnswerEditElement element in _answerElements) {
+                element.SetIndex(element.Connector.Index);
+            }
         }
         
         private void Awake()
@@ -38,7 +51,7 @@ namespace DialogMaker.UI.Panel
 
         private void OnAddAnswerClick()
         {
-            // TODO add answer (spawn connector, add new answerEditElement)
+            SpawnAnswerEditElement(_selectedNode.CreateNewConnector());
         }
 
         private void OnMainTextChanged(string newValue)
@@ -64,7 +77,9 @@ namespace DialogMaker.UI.Panel
 
         private void SpawnAnswerEditElement(IDialogConnector connector)
         {
-            // TODO spawn edit element
+            var editElement = _container.InstantiatePrefabForComponent<AnswerEditElement>(_answerEditElement, _answerEditElementsParent);
+            editElement.Initialize(this, connector);
+            _answerElements.Add(editElement);
         }
     }
 }
