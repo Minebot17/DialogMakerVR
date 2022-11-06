@@ -15,6 +15,7 @@ namespace DialogMaker.Manager
         void OnSelected(bool isSelected);
         IDialogConnector CreateNewConnector();
         void RemoveConnector(IDialogConnector connector);
+        void MoveAnswer(IDialogConnector connector, bool toUp);
         
         DialogSceneModel SerializeScene();
         DialogSceneMetadataModel SerializeMetadata();

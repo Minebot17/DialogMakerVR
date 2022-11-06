@@ -71,12 +71,12 @@ namespace DialogMaker.UI
         
         private void OnMoveUpClick()
         {
-            // TODO
+            _editPanel.OnMoveAnswer(this, true);
         }
         
         private void OnMoveDownClick()
         {
-            // TODO
+            _editPanel.OnMoveAnswer(this, false);
         }
         
         private void OnConnectClick()

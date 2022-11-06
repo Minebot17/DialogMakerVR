@@ -7,7 +7,7 @@ namespace DialogMaker.Manager
     public class DialogConnector : MonoBehaviour, IDialogConnector
     {
         [SerializeField] private TextMeshProUGUI _iconText;
-
+    
         public int TransitionSceneId { get; private set; }
         public string Text { get; set; }
         public int Index { get; private set; }

@@ -22,7 +22,6 @@ namespace DialogMaker.Manager
         private IMakerManager _makerManager;
         private Camera _camera;
         
-        private bool _isSelected;
         private bool _isMouseDown;
         private bool _ignoreNextClick;
         private Vector2 _mouseDownRelativePosition;
@@ -61,7 +60,6 @@ namespace DialogMaker.Manager
 
         public void OnSelected(bool isSelected)
         {
-            _isSelected = isSelected;
             _backgroundImage.color = isSelected ? new Color(1, 0.8f, 0.8f) : Color.white;
         }
 
@@ -76,6 +74,27 @@ namespace DialogMaker.Manager
             Destroy(Connectors[index].Item1);
             Connectors.RemoveAt(index);
 
+            foreach (var tuple in Connectors)
+            {
+                tuple.Item2.UpdateIndex();
+            }
+        }
+
+        public void MoveAnswer(IDialogConnector connector, bool toUp)
+        {
+            var connectorIndex = Connectors.FindIndex(c => c.Item2 == connector);
+
+            if (connectorIndex == 0 && toUp || connectorIndex == (Connectors.Count - 1) && !toUp)
+            {
+                return;
+            }
+
+            var delta = toUp ? -1 : 1;
+            Connectors[connectorIndex].Item1.transform.SetSiblingIndex(connectorIndex + delta);
+            (Connectors[connectorIndex], Connectors[connectorIndex + delta]) 
+                = (Connectors[connectorIndex + delta], Connectors[connectorIndex]);
+            
+            
             foreach (var tuple in Connectors)
             {
                 tuple.Item2.UpdateIndex();

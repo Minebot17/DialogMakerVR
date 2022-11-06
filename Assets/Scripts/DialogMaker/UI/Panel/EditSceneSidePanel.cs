@@ -41,6 +41,16 @@ namespace DialogMaker.UI.Panel
                 element.SetIndex(element.Connector.Index);
             }
         }
+
+        public void OnMoveAnswer(AnswerEditElement answerEditElement, bool isUp)
+        {
+            _selectedNode.MoveAnswer(answerEditElement.Connector, isUp);
+            
+            for (int i = 0; i < _selectedNode.Connectors.Count; i++)
+            {
+                _answerElements[i].Initialize(this, _selectedNode.Connectors[i].Item2);
+            }
+        }
         
         private void Awake()
         {
@@ -65,6 +75,7 @@ namespace DialogMaker.UI.Panel
             _selectedNode = sceneNode;
             _mainTextField.text = sceneNode.Text;
             
+            _answerElements.Clear();
             foreach (Transform answerEditElement in _answerEditElementsParent) {
                 Destroy(answerEditElement.gameObject);
             }
