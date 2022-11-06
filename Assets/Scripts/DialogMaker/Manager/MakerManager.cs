@@ -14,7 +14,8 @@ namespace DialogMaker.Manager
 {
     public class MakerManager : IMakerManager, IInitializable
     {
-        public event Action<IDialogSceneNode> OnNodeSelected; 
+        public event Action<IDialogSceneNode> OnNodeSelected;
+        public event Action<IDialogConnector, IDialogSceneNode> OnAnswerConnected; 
 
         private readonly DiContainer _container;
         private readonly Transform _editorCanvas;
@@ -26,6 +27,8 @@ namespace DialogMaker.Manager
         private IDialogSceneNode _selectedScene;
         
         public List<(GameObject, IDialogSceneNode)> Nodes { get; } = new();
+        public LineRenderer ActiveAnswerLine { get; set; }
+        public IDialogConnector ActiveAnswerConnector { get; set; }
 
         public MakerManager(
             DiContainer container, 
@@ -71,6 +74,18 @@ namespace DialogMaker.Manager
         {
             if (_selectedScene == sceneNode)
             {
+                return;
+            }
+             
+            if (ActiveAnswerLine)
+            {
+                if ((sceneNode as MonoBehaviour).gameObject != (ActiveAnswerConnector as MonoBehaviour).transform.parent.parent.gameObject)
+                {
+                    var connector = ActiveAnswerConnector;
+                    connector.SetAnswerLineNode(sceneNode);
+                    OnAnswerConnected?.Invoke(connector, sceneNode);
+                }
+                
                 return;
             }
             
@@ -120,10 +135,24 @@ namespace DialogMaker.Manager
                 .Find(s => s.Id == saveFileDm.ScenarioModel.StartSceneId);
             modelsToSpawn.Remove(defaultModel);
 
-            SpawnNode(defaultModel, metadates[defaultModel.Id]);
+            var nodesDict = new Dictionary<int, IDialogSceneNode>();
+            nodesDict.Add(defaultModel.Id, SpawnNode(defaultModel, metadates[defaultModel.Id]));
             foreach (var sceneModel in modelsToSpawn)
             {
-                SpawnNode(sceneModel, metadates[sceneModel.Id]);
+                nodesDict.Add(sceneModel.Id, SpawnNode(sceneModel, metadates[sceneModel.Id]));
+            }
+
+            foreach (var tuple in Nodes)
+            {
+                foreach (var connector in tuple.Item2.Connectors)
+                {
+                    if (connector.Item2.TransitionSceneId == 0)
+                    {
+                        continue;
+                    }
+                    
+                    connector.Item2.SetAnswerLineNode(nodesDict[connector.Item2.TransitionSceneId]);
+                }
             }
         }
     }

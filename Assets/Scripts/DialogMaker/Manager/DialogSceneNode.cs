@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DialogCommon.Model;
 using DialogCommon.Model.Metadata;
@@ -12,12 +13,14 @@ namespace DialogMaker.Manager
 {
     public class DialogSceneNode : MonoBehaviour, IDialogSceneNode, IPointerClickHandler, IPointerMoveHandler, IPointerDownHandler, IPointerUpHandler
     {
+        public event Action OnPositionChanged;
+        
         [SerializeField] private TextMeshProUGUI _nodeText;
         [SerializeField] private Transform _connectorsParent;
         [SerializeField] private GameObject _connectorPrefab;
         [SerializeField] private TextMeshProUGUI _defaultNodeText;
         [SerializeField] private Image _backgroundImage;
-        
+
         private DiContainer _container;
         private IMakerManager _makerManager;
         private Camera _camera;
@@ -25,7 +28,7 @@ namespace DialogMaker.Manager
         private bool _isMouseDown;
         private bool _ignoreNextClick;
         private Vector2 _mouseDownRelativePosition;
-
+        
         public int Id { get; private set; }
         public string Text
         {
@@ -151,6 +154,8 @@ namespace DialogMaker.Manager
                 newPosition.x - _mouseDownRelativePosition.x, 
                 newPosition.y - _mouseDownRelativePosition.y, 
                 transform.position.z);
+            
+            OnPositionChanged?.Invoke();
         }
 
         public void OnPointerDown(PointerEventData eventData)

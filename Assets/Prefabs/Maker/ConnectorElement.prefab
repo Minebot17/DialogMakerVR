@@ -271,3 +271,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _iconText: {fileID: 520587375307795177}
+  _answerLinePrefab: {fileID: 7425141977495760643, guid: 36f024e5709a699459d32a0ff8012141,
+    type: 3}

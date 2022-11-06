@@ -10,6 +10,8 @@ namespace DialogMaker.Manager
 
         void Initialize(IDialogSceneNode parent, AnswerModel answerModel);
         void UpdateIndex();
+        void SpawnNewAnswerLine();
+        void SetAnswerLineNode(IDialogSceneNode sceneNode);
         AnswerModel Serialize();
     }
 }

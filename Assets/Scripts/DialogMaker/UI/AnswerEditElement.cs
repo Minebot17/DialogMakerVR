@@ -39,6 +39,12 @@ namespace DialogMaker.UI
             _moveDownButton.onClick.AddListener(OnMoveDownClick);
             _connectButton.onClick.AddListener(OnConnectClick);
             _mainTextField.onValueChanged.AddListener(OnMainTextChanged);
+            _makerManager.OnAnswerConnected += OnAnswerConnected;
+        }
+
+        private void OnDestroy()
+        {
+            _makerManager.OnAnswerConnected -= OnAnswerConnected;
         }
 
         public void Initialize(EditSceneSidePanel editPanel, IDialogConnector connector)
@@ -81,7 +87,17 @@ namespace DialogMaker.UI
         
         private void OnConnectClick()
         {
-            // TODO
+            _connector.SpawnNewAnswerLine();
+        }
+
+        private void OnAnswerConnected(IDialogConnector connector, IDialogSceneNode sceneNode)
+        {
+            if (connector != _connector)
+            {
+                return;
+            }
+            
+            SetConnection(sceneNode.Id);
         }
 
         private void SetConnection(int sceneId)
