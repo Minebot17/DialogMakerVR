@@ -218,6 +218,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04145eed9dde4fc888761091a98c7410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _maxSize: 15
+  _minSize: 3
+  _scrollSencitivity: 0.25
 --- !u!1 &385717331
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +819,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelContainer: {fileID: 710948558}
   _editorCanvas: {fileID: 917124547}
+  _canvasScaler: {fileID: 417234465}
 --- !u!114 &1643919851
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace DialogMaker.Manager
     public interface IDialogSceneNode
     {
         event Action OnPositionChanged;
+        event Action OnRemoved;
         
         int Id { get; }
         string Text { get; set; }
@@ -20,7 +21,8 @@ namespace DialogMaker.Manager
         IDialogConnector CreateNewConnector();
         void RemoveConnector(IDialogConnector connector);
         void MoveAnswer(IDialogConnector connector, bool toUp);
-        
+        void RemoveNode();
+
         DialogSceneModel SerializeScene();
         DialogSceneMetadataModel SerializeMetadata();
     }

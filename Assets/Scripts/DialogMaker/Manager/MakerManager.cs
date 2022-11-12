@@ -29,6 +29,7 @@ namespace DialogMaker.Manager
         public List<(GameObject, IDialogSceneNode)> Nodes { get; } = new();
         public LineRenderer ActiveAnswerLine { get; set; }
         public IDialogConnector ActiveAnswerConnector { get; set; }
+        public IDialogSceneNode DefaultScene => _defaultScene;
 
         public MakerManager(
             DiContainer container, 
@@ -103,6 +104,12 @@ namespace DialogMaker.Manager
         public IDialogSceneNode FindNode(int nodeId)
         {
             return Nodes.Find(n => n.Item2.Id == nodeId).Item2;
+        }
+
+        public void RemoveNode(IDialogSceneNode sceneNode)
+        {
+            var index = Nodes.FindIndex(x => x.Item2 == sceneNode);
+            Nodes.RemoveAt(index);
         }
 
         public ScenarioModel SerializeScenario()

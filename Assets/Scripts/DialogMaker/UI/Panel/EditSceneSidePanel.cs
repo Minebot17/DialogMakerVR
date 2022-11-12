@@ -13,6 +13,7 @@ namespace DialogMaker.UI.Panel
     {
         [SerializeField] private TMP_InputField _mainTextField;
         [SerializeField] private Button _addAnswerButton;
+        [SerializeField] private Button _removeNodeButton;
         [SerializeField] private GameObject _answerEditElement;
         [SerializeField] private Transform _answerEditElementsParent;
 
@@ -32,6 +33,14 @@ namespace DialogMaker.UI.Panel
             _panelManager = panelManager;
         }
 
+        private void Awake()
+        {
+            _mainTextField.onValueChanged.AddListener(OnMainTextChanged);
+            _addAnswerButton.onClick.AddListener(OnAddAnswerClick);
+            _removeNodeButton.onClick.AddListener(OnRemoveNodeClick);
+            _makerManager.OnNodeSelected += OnNodeSelected;
+        }
+        
         public void OnRemovedAnswerElement(AnswerEditElement answerEditElement)
         {
             _answerElements.Remove(answerEditElement);
@@ -51,17 +60,17 @@ namespace DialogMaker.UI.Panel
                 _answerElements[i].Initialize(this, _selectedNode.Connectors[i].Item2);
             }
         }
-        
-        private void Awake()
-        {
-            _mainTextField.onValueChanged.AddListener(OnMainTextChanged);
-            _addAnswerButton.onClick.AddListener(OnAddAnswerClick);
-            _makerManager.OnNodeSelected += OnNodeSelected;
-        }
 
         private void OnAddAnswerClick()
         {
             SpawnAnswerEditElement(_selectedNode.CreateNewConnector());
+        }
+
+        private void OnRemoveNodeClick()
+        {
+            _selectedNode.RemoveNode();
+            _selectedNode = null;
+            _panelManager.ClosePanel<EditSceneSidePanel>();
         }
 
         private void OnMainTextChanged(string newValue)
@@ -84,6 +93,8 @@ namespace DialogMaker.UI.Panel
             {
                 SpawnAnswerEditElement(tuple.Item2);
             }
+
+            _removeNodeButton.gameObject.SetActive(_makerManager.DefaultScene != sceneNode);
         }
 
         private void SpawnAnswerEditElement(IDialogConnector connector)

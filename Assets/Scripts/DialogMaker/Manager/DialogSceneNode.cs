@@ -14,7 +14,8 @@ namespace DialogMaker.Manager
     public class DialogSceneNode : MonoBehaviour, IDialogSceneNode, IPointerClickHandler, IPointerMoveHandler, IPointerDownHandler, IPointerUpHandler
     {
         public event Action OnPositionChanged;
-        
+        public event Action OnRemoved;
+
         [SerializeField] private TextMeshProUGUI _nodeText;
         [SerializeField] private Transform _connectorsParent;
         [SerializeField] private GameObject _connectorPrefab;
@@ -97,11 +98,21 @@ namespace DialogMaker.Manager
             (Connectors[connectorIndex], Connectors[connectorIndex + delta]) 
                 = (Connectors[connectorIndex + delta], Connectors[connectorIndex]);
             
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_connectorsParent as RectTransform);
             
             foreach (var tuple in Connectors)
             {
                 tuple.Item2.UpdateIndex();
             }
+        }
+
+        public void RemoveNode()
+        {
+            OnRemoved?.Invoke();
+            _makerManager.RemoveNode(this);
+            Destroy(gameObject);
+            
+            
         }
 
         public DialogSceneModel SerializeScene()

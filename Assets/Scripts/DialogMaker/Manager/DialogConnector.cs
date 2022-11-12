@@ -63,9 +63,15 @@ namespace DialogMaker.Manager
 
         private void OnDestroy()
         {
+            if (_answerLine)
+            {
+                Destroy(_answerLine.gameObject);
+            }
+            
             if (_answerLineNode as MonoBehaviour)
             {
                 _answerLineNode.OnPositionChanged -= UpdateAnswerLinePositions;
+                _answerLineNode.OnRemoved -= OnConnectedNodeDeleted;
             }
 
             if (_parent as MonoBehaviour)
@@ -78,6 +84,11 @@ namespace DialogMaker.Manager
         {
             Index = _parent.Connectors.FindIndex(x => x.Item1 == gameObject) + 1;
             _iconText.text = Index.ToString();
+
+            if (_answerLineNode != null)
+            {
+                UpdateAnswerLinePositions();
+            }
         }
 
         public void SpawnNewAnswerLine()
@@ -100,6 +111,11 @@ namespace DialogMaker.Manager
                 SpawnAnswerLine();
             }
 
+            if (_answerLineNode as MonoBehaviour)
+            {
+                _answerLineNode.OnRemoved -= OnConnectedNodeDeleted;
+            }
+
             _answerLineNode = sceneNode;
             UpdateAnswerLinePositions();
             _answerLineNode.OnPositionChanged += UpdateAnswerLinePositions;
@@ -111,7 +127,8 @@ namespace DialogMaker.Manager
                 _makerManager.ActiveAnswerLine = null;
                 _makerManager.ActiveAnswerConnector = null;
             }
-            
+
+            _answerLineNode.OnRemoved += OnConnectedNodeDeleted;
             _answerLineNotSetted = false;
         }
 
@@ -133,6 +150,17 @@ namespace DialogMaker.Manager
         private void UpdateAnswerLinePositions()
         {
             _answerLine.SetPositions(new []{ transform.position, (_answerLineNode as MonoBehaviour).transform.position });
+        }
+
+        private void OnConnectedNodeDeleted()
+        {
+            Text = string.Empty;
+            TransitionSceneId = 0;
+            _parent.OnPositionChanged -= UpdateAnswerLinePositions;
+            _answerLineNode.OnPositionChanged -= UpdateAnswerLinePositions;
+            _answerLineNode.OnRemoved -= OnConnectedNodeDeleted;
+            _answerLineNode = null;
+            Destroy(_answerLine.gameObject);
         }
     }
 }
