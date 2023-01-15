@@ -33,7 +33,7 @@ namespace DialogMaker.Manager
 
         public MakerManager(
             DiContainer container, 
-            [Inject(Id = "EditorCanvas")] Transform editorCanvas,
+            [Inject(Id = InjectId.EditorCanvas)] Transform editorCanvas,
             IPanelManager panelManager,
             IDialogSaveManager dialogSaveManager,
             ISaveValues saveValues

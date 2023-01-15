@@ -1,4 +1,5 @@
 ﻿using DialogCommon.Manager;
+using DialogCommon.Utils;
 using DialogMaker.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,7 +22,7 @@ namespace DialogMaker.Installer
             Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
             Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
             Container.BindInterfacesTo<MakerManager>().AsSingle();
-            Container.Bind<Transform>().WithId("EditorCanvas").FromInstance(_editorCanvas).AsSingle();
+            Container.Bind<Transform>().WithId(InjectId.EditorCanvas).FromInstance(_editorCanvas).AsSingle();
             Container.Bind<Camera>().FromInstance(Camera.main).AsSingle();
             Container.Bind<DefaultInputActions>().FromInstance(inputActions).AsSingle();
             Container.Bind<CanvasScaler>().FromInstance(_canvasScaler).AsSingle();

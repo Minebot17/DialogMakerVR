@@ -1,4 +1,5 @@
 ﻿using DialogCommon.Model;
+using DialogCommon.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,7 +30,7 @@ namespace DialogMaker.Manager
         [Inject]
         public void Inject(
             DiContainer container, 
-            [Inject(Id = "EditorCanvas")] Transform editorCanvas, 
+            [Inject(Id = InjectId.EditorCanvas)] Transform editorCanvas, 
             IMakerManager makerManager,
             Camera camera
         ) {

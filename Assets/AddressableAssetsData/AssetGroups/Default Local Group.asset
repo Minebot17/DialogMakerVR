@@ -21,6 +21,10 @@ MonoBehaviour:
     m_Address: DialogSceneNode
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 69037d1be5219704abc56e1e1c5e4599
+    m_Address: AnswerButton
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 158624aa2b25de346bbe515872726da6, type: 2}
   m_SchemaSet:
