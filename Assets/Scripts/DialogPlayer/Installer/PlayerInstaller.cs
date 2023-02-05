@@ -1,9 +1,6 @@
 ﻿using DialogCommon.Manager;
 using DialogCommon.Model;
-using DialogCommon.Utils;
 using DialogPlayer.Manager;
-using DialogPlayer.UI;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +8,7 @@ namespace DialogPlayer.Installer
 {
     public class PlayerInstaller : MonoInstaller<PlayerInstaller>
     {
-        [SerializeField] private TMP_Text _patientText;
-        [SerializeField] private AnswersContainer _answersContainer;
+        [SerializeField] private PanelContainer _panelContainer;
         
         private IDialogSaveManager _saveManager;
         private ISaveValues _saveValues;
@@ -26,15 +22,13 @@ namespace DialogPlayer.Installer
         
         public override void InstallBindings()
         {
-            Container.Bind<IPlayerManager>().To<PlayerManager>().AsSingle();
+            Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
 
             var file = _saveManager.LoadDialog(_saveValues.OpenedScenarioName);
             Container.Bind<ScenarioModel>().FromInstance(file.ScenarioModel).AsSingle();
-            Container.Bind<IAnswersContainer>().FromInstance(_answersContainer).AsSingle();
+            Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
 
             Container.BindInterfacesTo<PlayerManager>().AsSingle();
-
-            Container.Bind<TMP_Text>().WithId(InjectId.PatientText).FromInstance(_patientText).AsSingle();
         }
     }
 }

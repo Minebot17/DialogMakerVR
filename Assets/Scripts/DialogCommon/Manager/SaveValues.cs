@@ -11,7 +11,5 @@ namespace DialogCommon.Manager
             set => _openedScenarioName.Value = value;
             get => _openedScenarioName.Value;
         }
-
-        public int DefaultSceneIdName { get; set; } // TODO fill when open file
     }
 }

@@ -7,7 +7,7 @@ using Zenject;
 
 namespace DialogPlayer.UI
 {
-    public class AnswersContainer : MonoBehaviour, IAnswersContainer
+    public class AnswersContainer : MonoBehaviour
     {
         private DiContainer _container;
 
