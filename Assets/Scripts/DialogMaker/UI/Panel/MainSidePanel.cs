@@ -17,6 +17,7 @@ namespace DialogMaker.UI.Panel
     public class MainSidePanel : DialogCommon.Manager.Panel
     {
         [SerializeField] private TMP_InputField _saveNameField;
+        [SerializeField] private TMP_Dropdown _sceneNameDropdown;
         [SerializeField] private Button _createNewSceneButton;
         [SerializeField] private Button _saveScenarioButton;
         [SerializeField] private Button _returnToMainMenuButton;
@@ -40,6 +41,13 @@ namespace DialogMaker.UI.Panel
             _returnToMainMenuButton.onClick.AddListener(OnReturnToMainMenuClick);
 
             _saveNameField.text = _saveValues.OpenedScenarioName;
+            _sceneNameDropdown.value = (int) _makerManager.PlayerSceneId;
+            _sceneNameDropdown.onValueChanged.AddListener(OnPlayerSceneChanged);
+        }
+
+        private void OnPlayerSceneChanged(int value)
+        {
+            _makerManager.PlayerSceneId = (PlayerScenes) value;
         }
 
         private void OnCreateNewSceneClick()

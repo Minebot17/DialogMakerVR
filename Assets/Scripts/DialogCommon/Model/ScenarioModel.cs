@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DialogCommon.Utils;
 
 namespace DialogCommon.Model
 {
@@ -8,5 +9,6 @@ namespace DialogCommon.Model
     {
         public int StartSceneId { get; set; }
         public List<DialogSceneModel> Scenes { get; set; }
+        public PlayerScenes PlayerSceneId { get; set; }
     }
 }

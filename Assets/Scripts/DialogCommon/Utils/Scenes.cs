@@ -2,12 +2,22 @@
 {
     public enum Scenes
     {
-        MainMenu, MakerScene, PlayerScene
+        MainMenu, MakerScene
+    }
+    
+    public enum PlayerScenes
+    {
+        DoctorsAppointment, Registration
     }
 
     public static class ScenesEnumExtensions
     {
         public static string GetName(this Scenes scene)
+        {
+            return scene.ToString("G");
+        }
+        
+        public static string GetName(this PlayerScenes scene)
         {
             return scene.ToString("G");
         }

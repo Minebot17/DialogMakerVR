@@ -29,6 +29,7 @@ namespace DialogMaker.Manager
         public List<(GameObject, IDialogSceneNode)> Nodes { get; } = new();
         public LineRenderer ActiveAnswerLine { get; set; }
         public IDialogConnector ActiveAnswerConnector { get; set; }
+        public PlayerScenes PlayerSceneId { get; set; }
         public IDialogSceneNode DefaultScene => _defaultScene;
 
         public MakerManager(
@@ -117,7 +118,8 @@ namespace DialogMaker.Manager
             return new ScenarioModel
             {
                 StartSceneId = _defaultScene.Id,
-                Scenes = Nodes.Select(x => x.Item2.SerializeScene()).ToList()
+                Scenes = Nodes.Select(x => x.Item2.SerializeScene()).ToList(),
+                PlayerSceneId = PlayerSceneId
             };
         }
 
@@ -141,7 +143,8 @@ namespace DialogMaker.Manager
             var defaultModel = saveFileDm.ScenarioModel.Scenes
                 .Find(s => s.Id == saveFileDm.ScenarioModel.StartSceneId);
             modelsToSpawn.Remove(defaultModel);
-
+            PlayerSceneId = saveFileDm.ScenarioModel.PlayerSceneId;
+            
             var nodesDict = new Dictionary<int, IDialogSceneNode>();
             nodesDict.Add(defaultModel.Id, SpawnNode(defaultModel, metadates[defaultModel.Id]));
             foreach (var sceneModel in modelsToSpawn)

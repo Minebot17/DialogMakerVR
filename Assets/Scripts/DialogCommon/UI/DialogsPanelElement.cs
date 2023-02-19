@@ -38,7 +38,9 @@ namespace DialogCommon.UI
         private void OnPlayClick()
         {
             _saveValues.OpenedScenarioName = _dialogName;
-            SceneManager.LoadScene(Scenes.PlayerScene.GetName());
+            var playerScene = _dialogSaveManager
+                .LoadDialog(_saveValues.OpenedScenarioName).ScenarioModel.PlayerSceneId;
+            SceneManager.LoadScene(playerScene.GetName());
         }
         
         private void OnEditClick()
