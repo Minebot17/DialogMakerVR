@@ -38,6 +38,11 @@ namespace DialogPlayer.UI.Panel
         
         private void StartDialog(DialogSceneModel dialogSceneModel)
         {
+            if (dialogSceneModel.Answers.Count == 0)
+            {
+                dialogSceneModel.Answers.Add(new AnswerModel { MainText = "До свидания", ToDialogSceneId = 0});
+            }
+            
             _patientText.text = dialogSceneModel.MainText;
             _answersContainer.Setup(dialogSceneModel.Answers, OnSelectedAnswer);
         }
