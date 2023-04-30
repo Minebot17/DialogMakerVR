@@ -3,19 +3,17 @@ using System.IO;
 using System.Linq;
 using Assets.SimpleZip;
 using DialogCommon.Model;
-using DialogCommon.Model.Metadata;
-using DialogCommon.Utils;
 using Newtonsoft.Json;
 using UnityEngine;
 
 namespace DialogCommon.Manager
 {
-    public class DialogSaveManager : IDialogSaveManager
+    public class ReportSaveManager : IReportSaveManager
     {
-        private const string DialogScenarioExtension = "dm";
-        private const string DialogScenarioSubFolder = "/Scenarios";
+        private const string DialogScenarioExtension = "rep";
+        private const string DialogScenarioSubFolder = "/Reports";
     
-        public List<string> SavedDialogNames => 
+        public List<string> SavedReportNames => 
             Directory.GetFiles(DialogFolderPath, $"*.{DialogScenarioExtension}")
                 .Select(str =>
                 {
@@ -26,7 +24,7 @@ namespace DialogCommon.Manager
 
         private string DialogFolderPath => Application.persistentDataPath + DialogScenarioSubFolder;
 
-        public DialogSaveManager()
+        public ReportSaveManager()
         {
             if (!Directory.Exists(DialogFolderPath))
             {
@@ -34,25 +32,24 @@ namespace DialogCommon.Manager
             }
         }
         
-        public SaveFileDm LoadDialog(string name)
+        public ReportModel LoadReport(string name)
         {
-            string savedJson = Zip.Decompress(File.ReadAllBytes(GetFullScenarioPath(name)));
-            return JsonConvert.DeserializeObject<SaveFileDm>(savedJson);
+            string savedJson = Zip.Decompress(File.ReadAllBytes(GetFullReportPath(name)));
+            return JsonConvert.DeserializeObject<ReportModel>(savedJson);
         }
 
-        public void SaveDialog(string name, ScenarioModel model, ScenarioMetadataModel metadata)
+        public void SaveReport(string name, ReportModel model)
         {
-            model.Name = name;
-            string saveJson = JsonConvert.SerializeObject(new SaveFileDm(model, metadata), Formatting.Indented);
+            string saveJson = JsonConvert.SerializeObject(model, Formatting.Indented);
             File.WriteAllBytes($"{DialogFolderPath}/{name}.{DialogScenarioExtension}", Zip.Compress(saveJson));
         }
 
-        public void DeleteDialog(string name)
+        public void DeleteReport(string name)
         {
-            File.Delete(GetFullScenarioPath(name));
+            File.Delete(GetFullReportPath(name));
         }
 
-        private string GetFullScenarioPath(string name)
+        private string GetFullReportPath(string name)
         {
             return $"{DialogFolderPath}/{name}.{DialogScenarioExtension}";
         }

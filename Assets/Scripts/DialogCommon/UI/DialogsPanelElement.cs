@@ -18,6 +18,7 @@ namespace DialogCommon.UI
         private string _dialogName;
         private IDialogSaveManager _dialogSaveManager;
         private ISaveValues _saveValues;
+        private string _userName;
 
         [Inject]
         public void Inject(IDialogSaveManager dialogSaveManager, ISaveValues saveValues)

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DialogCommon.Manager;
 using DialogCommon.Model;
+using DialogPlayer.Manager;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -14,11 +16,22 @@ namespace DialogPlayer.UI.Panel
         
         private ScenarioModel _scenarioModel;
         private IPanelManager _panelManager;
+        private IReportRecorder _reportRecorder;
+        private IReportSaveManager _reportSaveManager;
+        private ISaveValues _saveValues;
+
+        private DialogSceneModel _currentDialog;
 
         [Inject]
-        private void Construct(IPanelManager panelManager)
+        private void Construct(
+            IPanelManager panelManager, 
+            IReportRecorder reportRecorder, 
+            IReportSaveManager reportSaveManager,
+            ISaveValues saveValues)
         {
             _panelManager = panelManager;
+            _reportSaveManager = reportSaveManager;
+            _saveValues = saveValues;
         }
         
         public void StartScenario(ScenarioModel scenarioModel)
@@ -34,6 +47,7 @@ namespace DialogPlayer.UI.Panel
             }
             
             StartDialog(defaultDialog);
+            _reportRecorder.StartRecord(scenarioModel);
         }
         
         private void StartDialog(DialogSceneModel dialogSceneModel)
@@ -45,14 +59,17 @@ namespace DialogPlayer.UI.Panel
             
             _patientText.text = dialogSceneModel.MainText;
             _answersContainer.Setup(dialogSceneModel.Answers, OnSelectedAnswer);
+            _currentDialog = dialogSceneModel;
         }
         
-        private void OnSelectedAnswer(AnswerModel answerModel)
+        private void OnSelectedAnswer(int index, AnswerModel answerModel)
         {
             if (answerModel.ToDialogSceneId == 0)
             {
                 _panelManager.ClosePanel<ScenePanel>();
                 _panelManager.OpenPanel<EndScenePanel>();
+                
+                _reportSaveManager.SaveReport($"{_saveValues.OpenedScenarioName}_{_saveValues.UserName}_{DateTime.Now:hh:mm:ss}", _reportRecorder.EndRecord());
                 return;
             }
 
@@ -65,6 +82,7 @@ namespace DialogPlayer.UI.Panel
             }
             
             StartDialog(newDialog);
+            _reportRecorder.RecordAnswer(_currentDialog.Id, index);
         }
     }
 }

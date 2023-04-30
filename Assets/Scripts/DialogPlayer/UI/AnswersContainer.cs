@@ -17,24 +17,24 @@ namespace DialogPlayer.UI
             _container = container;
         }
         
-        public void Setup(List<AnswerModel> answerModels, Action<AnswerModel> onSelect)
+        public void Setup(List<AnswerModel> answerModels, Action<int, AnswerModel> onSelect)
         {
             foreach (Transform child in transform)
             {
                 Destroy(child.gameObject);
             }
-            
-            foreach (var model in answerModels)
+
+            for (int i = 0; i < answerModels.Count; i++)
             {
-                SpawnButton(model, onSelect);
+                SpawnButton(answerModels[i], onSelect, i);
             }
         }
         
-        private void SpawnButton(AnswerModel model, Action<AnswerModel> onSelect)
+        private void SpawnButton(AnswerModel model, Action<int, AnswerModel> onSelect, int index)
         {
             var buttonPrefab = Addressables.LoadAssetAsync<GameObject>("AnswerButton").WaitForCompletion();
             var button = _container.InstantiatePrefabForComponent<IAnswerButton>(buttonPrefab, transform);
-            button.Setup(model, onSelect);
+            button.Setup(model, onSelect, index);
         }
     }
 }

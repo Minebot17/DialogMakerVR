@@ -1,5 +1,6 @@
 ﻿using DialogCommon.Manager;
 using DialogCommon.Utils;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace DialogCommon.UI.Panel
         [SerializeField] private Button _backButton;
         [SerializeField] private Transform _dialogElementsParent;
         [SerializeField] private GameObject _dialogElementPrefab;
+        [SerializeField] private TMP_InputField _userName;
 
         private DiContainer _container;
         private IPanelManager _panelManager;
@@ -36,6 +38,8 @@ namespace DialogCommon.UI.Panel
         {
             _createNewDialogButton.onClick.AddListener(OnCreateNewDialogClick);
             _backButton.onClick.AddListener(OnBackClick);
+            _userName.onValueChanged.AddListener(OnUserNameChanged);
+            Open();
         }
 
         public override void Open()
@@ -65,6 +69,11 @@ namespace DialogCommon.UI.Panel
         {
             _panelManager.ClosePanel<DialogsPanel>();
             _panelManager.OpenPanel<MainMenuPanel>();
+        }
+
+        private void OnUserNameChanged(string value)
+        {
+            _saveValues.UserName = value;
         }
     }
 }

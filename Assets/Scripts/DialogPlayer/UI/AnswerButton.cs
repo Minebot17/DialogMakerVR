@@ -10,11 +10,11 @@ namespace DialogPlayer.UI
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _button;
-        
-        public void Setup(AnswerModel model, Action<AnswerModel> onSelect)
+
+        public void Setup(AnswerModel model, Action<int, AnswerModel> onSelect, int index)
         {
             _text.text = model.MainText;
-            _button.onClick.AddListener(() => onSelect?.Invoke(model));
+            _button.onClick.AddListener(() => onSelect?.Invoke(index, model));
         }
     }
 }
