@@ -1,4 +1,5 @@
 ﻿using DialogCommon.Model;
+using UnityEngine;
 
 namespace DialogMaker.Manager
 {
@@ -13,5 +14,6 @@ namespace DialogMaker.Manager
         void SpawnNewAnswerLine();
         void SetAnswerLineNode(IDialogSceneNode sceneNode);
         AnswerModel Serialize();
+        void SetColor(Color color);
     }
 }

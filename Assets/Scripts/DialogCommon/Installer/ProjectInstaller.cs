@@ -9,6 +9,7 @@ namespace DialogCommon.Installer
         {
             Container.Bind<ISaveValues>().To<SaveValues>().AsSingle();
             Container.Bind<IDialogSaveManager>().To<DialogSaveManager>().AsSingle();
+            Container.Bind<IReportSaveManager>().To<ReportSaveManager>().AsSingle();
         }
     }
 

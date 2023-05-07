@@ -2,7 +2,7 @@
 {
     public enum Scenes
     {
-        MainMenu, MakerScene
+        MainMenu, MakerScene, ReportViewScene
     }
     
     public enum PlayerScenes

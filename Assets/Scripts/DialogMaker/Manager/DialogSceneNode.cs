@@ -29,6 +29,7 @@ namespace DialogMaker.Manager
         private bool _isMouseDown;
         private bool _ignoreNextClick;
         private Vector2 _mouseDownRelativePosition;
+        private Color _prevColor = Color.white;
         
         public int Id { get; private set; }
         public string Text
@@ -64,7 +65,12 @@ namespace DialogMaker.Manager
 
         public void OnSelected(bool isSelected)
         {
-            _backgroundImage.color = isSelected ? new Color(1, 0.8f, 0.8f) : Color.white;
+            if (isSelected)
+            {
+                _prevColor = _backgroundImage.color;
+            }
+
+            _backgroundImage.color = isSelected ? new Color(1, 0.8f, 0.8f) : _prevColor;
         }
 
         public IDialogConnector CreateNewConnector()
@@ -111,8 +117,12 @@ namespace DialogMaker.Manager
             OnRemoved?.Invoke();
             _makerManager.RemoveNode(this);
             Destroy(gameObject);
-            
-            
+        }
+
+        public void SetColor(Color color)
+        {
+            _backgroundImage.color = color;
+            _prevColor = color;
         }
 
         public DialogSceneModel SerializeScene()

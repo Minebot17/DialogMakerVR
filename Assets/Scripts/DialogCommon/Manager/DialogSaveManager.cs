@@ -22,9 +22,17 @@ namespace DialogCommon.Manager
                     string fileName = new FileInfo(str).Name;
                     return fileName.Substring(0, fileName.Length - DialogScenarioExtension.Length - 1);
                 })
+                .Concat(
+                    Directory.GetFiles(StreamingAssetsDialogFolderPath, $"*.{DialogScenarioExtension}")
+                    .Select(str =>
+                    {
+                        string fileName = new FileInfo(str).Name;
+                        return "StreamingAssets/" + fileName.Substring(0, fileName.Length - DialogScenarioExtension.Length - 1);
+                    }))
                 .ToList();
 
         private string DialogFolderPath => Application.persistentDataPath + DialogScenarioSubFolder;
+        private string StreamingAssetsDialogFolderPath => Application.streamingAssetsPath + "/Scenarios";
 
         public DialogSaveManager()
         {
@@ -54,6 +62,10 @@ namespace DialogCommon.Manager
 
         private string GetFullScenarioPath(string name)
         {
+            if (name.Contains("StreamingAssets"))
+            {
+                return $"{StreamingAssetsDialogFolderPath}/{name[16..]}.{DialogScenarioExtension}";
+            }
             return $"{DialogFolderPath}/{name}.{DialogScenarioExtension}";
         }
     }

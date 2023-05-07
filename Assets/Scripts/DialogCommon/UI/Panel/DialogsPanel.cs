@@ -1,4 +1,5 @@
-﻿using DialogCommon.Manager;
+﻿using System.Linq;
+using DialogCommon.Manager;
 using DialogCommon.Utils;
 using TMPro;
 using UnityEngine;
@@ -13,12 +14,15 @@ namespace DialogCommon.UI.Panel
         [SerializeField] private Button _createNewDialogButton;
         [SerializeField] private Button _backButton;
         [SerializeField] private Transform _dialogElementsParent;
+        [SerializeField] private Transform _dialogElementsReportsParent;
         [SerializeField] private GameObject _dialogElementPrefab;
+        [SerializeField] private GameObject _scrollHeaderPrefab;
         [SerializeField] private TMP_InputField _userName;
 
         private DiContainer _container;
         private IPanelManager _panelManager;
         private IDialogSaveManager _dialogSaveManager;
+        private IReportSaveManager _reportSaveManager;
         private ISaveValues _saveValues;
 
         [Inject]
@@ -26,11 +30,13 @@ namespace DialogCommon.UI.Panel
             DiContainer container, 
             IPanelManager panelManager, 
             IDialogSaveManager dialogSaveManager,
+            IReportSaveManager reportSaveManager,
             ISaveValues saveValues
         ) {
             _container = container;
             _panelManager = panelManager;
             _dialogSaveManager = dialogSaveManager;
+            _reportSaveManager = reportSaveManager;
             _saveValues = saveValues;
         }
 
@@ -50,12 +56,40 @@ namespace DialogCommon.UI.Panel
             {
                 Destroy(_dialogElementsParent.GetChild(i).gameObject);
             }
+            
+            for (int i = 0; i < _dialogElementsParent.childCount; i++)
+            {
+                Destroy(_dialogElementsReportsParent.GetChild(i).gameObject);
+            }
 
-            foreach (string savedDialogName in _dialogSaveManager.SavedDialogNames)
+            var buildinScenarios = _dialogSaveManager.SavedDialogNames.Where(s => s.Contains("StreamingAssets")).ToList();
+            var customScenarios = _dialogSaveManager.SavedDialogNames.Where(s => !s.Contains("StreamingAssets")).ToList();
+
+            if (customScenarios.Count != 0)
+            {
+                _container.InstantiatePrefabForComponent<TMP_Text>(_scrollHeaderPrefab, _dialogElementsParent).text = "Custom scenarios";
+                
+                foreach (string savedDialogName in customScenarios)
+                {
+                    _container
+                        .InstantiatePrefabForComponent<DialogsPanelElement>(_dialogElementPrefab, _dialogElementsParent)
+                        .Initialize(savedDialogName, false, true);
+                }
+            }
+
+            _container.InstantiatePrefabForComponent<TMP_Text>(_scrollHeaderPrefab, _dialogElementsParent).text = "Default scenarios";
+            foreach (string savedDialogName in buildinScenarios)
             {
                 _container
                     .InstantiatePrefabForComponent<DialogsPanelElement>(_dialogElementPrefab, _dialogElementsParent)
-                    .Initialize(savedDialogName);
+                    .Initialize(savedDialogName, false, false);
+            }
+
+            foreach (var savedReportName in _reportSaveManager.SavedReportNames)
+            {
+                _container
+                    .InstantiatePrefabForComponent<DialogsPanelElement>(_dialogElementPrefab, _dialogElementsReportsParent)
+                    .Initialize(savedReportName, true, true);
             }
         }
 

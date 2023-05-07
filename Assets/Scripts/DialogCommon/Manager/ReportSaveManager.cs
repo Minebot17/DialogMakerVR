@@ -41,7 +41,7 @@ namespace DialogCommon.Manager
         public void SaveReport(string name, ReportModel model)
         {
             string saveJson = JsonConvert.SerializeObject(model, Formatting.Indented);
-            File.WriteAllBytes($"{DialogFolderPath}/{name}.{DialogScenarioExtension}", Zip.Compress(saveJson));
+            File.WriteAllBytes($"{DialogFolderPath}/{name.Replace("StreamingAssets/", string.Empty).Replace(":", "-")}.{DialogScenarioExtension}", Zip.Compress(saveJson));
         }
 
         public void DeleteReport(string name)

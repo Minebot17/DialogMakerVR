@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DialogCommon.Utils;
 
 namespace DialogCommon.Model
 {
@@ -8,8 +9,9 @@ namespace DialogCommon.Model
     {
         public int Version { get; set; }
         public string UserName { get; set; }
-        public ScenarioModel ScenarioModel { get; set; }
-        
+        public SaveFileDm ScenarioFile { get; set; }
+
+        public DateTime StartTime { get; set; }
         public TimeSpan TotalTime { get; set; }
         public Dictionary<int, TimeSpan> DialogsTime { get; set; }
         public List<DialogRecord> DialogRecords { get; set; }

@@ -17,7 +17,8 @@ namespace DialogMaker.Manager
         IDialogConnector ActiveAnswerConnector { get; set; }
         PlayerScenes PlayerSceneId { get; set; }
         IDialogSceneNode DefaultScene { get; }
-        
+        ReportModel ReportModel { get; }
+
         IDialogSceneNode SpawnNode(DialogSceneModel sceneModel, DialogSceneMetadataModel metadataModel);
         void SelectNode(IDialogSceneNode sceneNode);
         IDialogSceneNode FindNode(int nodeId);

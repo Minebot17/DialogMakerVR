@@ -1,5 +1,6 @@
 ﻿using DialogCommon.Manager;
 using DialogCommon.Model;
+using DialogCommon.Utils;
 using DialogPlayer.Manager;
 using UnityEngine;
 using Zenject;
@@ -25,9 +26,10 @@ namespace DialogPlayer.Installer
             Container.Bind<IPanelManager>().To<PanelManager>().AsSingle();
 
             var file = _saveManager.LoadDialog(_saveValues.OpenedScenarioName);
-            Container.Bind<ScenarioModel>().FromInstance(file.ScenarioModel).AsSingle();
+            Container.Bind<SaveFileDm>().FromInstance(file).AsSingle();
             Container.Bind<IPanelContainer>().FromInstance(_panelContainer).AsSingle();
 
+            Container.Bind<IReportRecorder>().To<ReportRecorder>().AsSingle();
             Container.BindInterfacesTo<PlayerManager>().AsSingle();
         }
     }

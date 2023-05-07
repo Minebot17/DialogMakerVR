@@ -2,6 +2,7 @@
 using System.Linq;
 using DialogCommon.Manager;
 using DialogCommon.Model;
+using DialogCommon.Utils;
 using DialogPlayer.Manager;
 using TMPro;
 using UnityEngine;
@@ -32,11 +33,12 @@ namespace DialogPlayer.UI.Panel
             _panelManager = panelManager;
             _reportSaveManager = reportSaveManager;
             _saveValues = saveValues;
+            _reportRecorder = reportRecorder;
         }
         
-        public void StartScenario(ScenarioModel scenarioModel)
+        public void StartScenario(SaveFileDm saveFile)
         {
-            _scenarioModel = scenarioModel;
+            _scenarioModel = saveFile.ScenarioModel;
             
             var defaultDialog = _scenarioModel.Scenes.FirstOrDefault(scene => scene.Id == _scenarioModel.StartSceneId);
             if (defaultDialog == null)
@@ -47,7 +49,7 @@ namespace DialogPlayer.UI.Panel
             }
             
             StartDialog(defaultDialog);
-            _reportRecorder.StartRecord(scenarioModel);
+            _reportRecorder.StartRecord(saveFile);
         }
         
         private void StartDialog(DialogSceneModel dialogSceneModel)
@@ -69,6 +71,7 @@ namespace DialogPlayer.UI.Panel
                 _panelManager.ClosePanel<ScenePanel>();
                 _panelManager.OpenPanel<EndScenePanel>();
                 
+                _reportRecorder.RecordAnswer(_currentDialog.Id, 0);
                 _reportSaveManager.SaveReport($"{_saveValues.OpenedScenarioName}_{_saveValues.UserName}_{DateTime.Now:hh:mm:ss}", _reportRecorder.EndRecord());
                 return;
             }
@@ -81,8 +84,8 @@ namespace DialogPlayer.UI.Panel
                 return;
             }
             
-            StartDialog(newDialog);
             _reportRecorder.RecordAnswer(_currentDialog.Id, index);
+            StartDialog(newDialog);
         }
     }
 }

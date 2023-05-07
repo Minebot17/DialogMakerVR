@@ -22,6 +22,7 @@ namespace DialogMaker.Manager
         void RemoveConnector(IDialogConnector connector);
         void MoveAnswer(IDialogConnector connector, bool toUp);
         void RemoveNode();
+        void SetColor(Color color);
 
         DialogSceneModel SerializeScene();
         DialogSceneMetadataModel SerializeMetadata();

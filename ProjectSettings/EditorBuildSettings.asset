@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Registration.unity
     guid: 1f5bc4ff74bab2844aacf8c99e08982b
+  - enabled: 1
+    path: Assets/Scenes/ReportViewScene.unity
+    guid: 2dbc83f406255944ab6d10ab967e1d21
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: d2b38bd9758ce064483a8900ac34d363,
       type: 2}

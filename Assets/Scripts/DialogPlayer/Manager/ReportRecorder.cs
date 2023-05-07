@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DialogCommon.Manager;
 using DialogCommon.Model;
+using DialogCommon.Utils;
 
 namespace DialogPlayer.Manager
 {
@@ -10,7 +11,6 @@ namespace DialogPlayer.Manager
         private readonly ISaveValues _saveValues;
         
         private ReportModel _report;
-        private DateTime _startTime;
         private DateTime _currentDialogStartTime;
 
         public ReportRecorder(ISaveValues saveValues)
@@ -18,14 +18,14 @@ namespace DialogPlayer.Manager
             _saveValues = saveValues;
         }
 
-        public void StartRecord(ScenarioModel model)
+        public void StartRecord(SaveFileDm file)
         {
             _currentDialogStartTime = DateTime.Now;
-            _startTime = DateTime.Now;
             _report = new ReportModel
             {
                 Version = 1,
-                ScenarioModel = model,
+                StartTime = DateTime.Now,
+                ScenarioFile = file,
                 DialogRecords = new List<DialogRecord>(),
                 DialogsTime = new Dictionary<int, TimeSpan>(),
                 UserName = _saveValues.UserName
@@ -41,7 +41,7 @@ namespace DialogPlayer.Manager
 
         public ReportModel EndRecord()
         {
-            _report.TotalTime = DateTime.Now - _startTime;
+            _report.TotalTime = DateTime.Now - _report.StartTime;
             return _report;
         }
     }

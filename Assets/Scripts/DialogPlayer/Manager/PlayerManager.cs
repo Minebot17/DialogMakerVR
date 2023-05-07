@@ -1,5 +1,5 @@
 ﻿using DialogCommon.Manager;
-using DialogCommon.Model;
+using DialogCommon.Utils;
 using DialogPlayer.UI.Panel;
 using UnityEngine;
 using Zenject;
@@ -8,24 +8,24 @@ namespace DialogPlayer.Manager
 {
     public class PlayerManager : IPlayerManager, IInitializable
     {
-        private readonly ScenarioModel _scenarioModel;
+        private readonly SaveFileDm _scenarioFile;
         private readonly IPanelManager _panelManager;
 
-        public PlayerManager(ScenarioModel scenarioModel, IPanelManager panelManager) 
+        public PlayerManager(SaveFileDm scenarioFile, IPanelManager panelManager) 
         {
-            _scenarioModel = scenarioModel;
+            _scenarioFile = scenarioFile;
             _panelManager = panelManager;
         }
         
         public void Initialize()
         {
-            if (_scenarioModel == null)
+            if (_scenarioFile == null)
             {
                 Debug.LogError("Nothing scenario to load");
                 return;
             }
             
-            _panelManager.OpenPanel<ScenePanel>().StartScenario(_scenarioModel);
+            _panelManager.OpenPanel<ScenePanel>().StartScenario(_scenarioFile);
         }
     }
 }

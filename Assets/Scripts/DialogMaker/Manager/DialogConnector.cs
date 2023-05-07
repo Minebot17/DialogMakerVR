@@ -142,6 +142,17 @@ namespace DialogMaker.Manager
             };
         }
 
+        public void SetColor(Color color)
+        {
+            if (!_answerLine)
+            {
+                return;
+            }
+            
+            _answerLine.startColor = color;
+            _answerLine.endColor = color;
+        }
+
         private void SpawnAnswerLine()
         {
             _answerLine = _container.InstantiatePrefabForComponent<LineRenderer>(_answerLinePrefab, _editorCanvas);

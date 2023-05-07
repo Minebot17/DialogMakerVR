@@ -40,7 +40,7 @@ namespace DialogMaker.UI.Panel
             _saveScenarioButton.onClick.AddListener(OnSaveScenarioClick);
             _returnToMainMenuButton.onClick.AddListener(OnReturnToMainMenuClick);
 
-            _saveNameField.text = _saveValues.OpenedScenarioName;
+            _saveNameField.text = _saveValues.OpenedScenarioName.Replace("StreamingAssets/", string.Empty);
             _sceneNameDropdown.value = (int) _makerManager.PlayerSceneId;
             _sceneNameDropdown.onValueChanged.AddListener(OnPlayerSceneChanged);
         }

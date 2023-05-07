@@ -21,28 +21,33 @@ namespace DialogMaker.Manager
         private readonly Transform _editorCanvas;
         private readonly IPanelManager _panelManager;
         private readonly IDialogSaveManager _dialogSaveManager;
+        private readonly IReportSaveManager _reportSaveManager;
         private readonly ISaveValues _saveValues;
 
         private IDialogSceneNode _defaultScene;
         private IDialogSceneNode _selectedScene;
+        private bool _isReport;
         
         public List<(GameObject, IDialogSceneNode)> Nodes { get; } = new();
         public LineRenderer ActiveAnswerLine { get; set; }
         public IDialogConnector ActiveAnswerConnector { get; set; }
         public PlayerScenes PlayerSceneId { get; set; }
         public IDialogSceneNode DefaultScene => _defaultScene;
+        public ReportModel ReportModel { get; set; }
 
         public MakerManager(
             DiContainer container, 
             [Inject(Id = InjectId.EditorCanvas)] Transform editorCanvas,
             IPanelManager panelManager,
             IDialogSaveManager dialogSaveManager,
+            IReportSaveManager reportSaveManager,
             ISaveValues saveValues
         ) {
             _container = container;
             _editorCanvas = editorCanvas;
             _panelManager = panelManager;
             _dialogSaveManager = dialogSaveManager;
+            _reportSaveManager = reportSaveManager;
             _saveValues = saveValues;
         }
         
@@ -52,8 +57,13 @@ namespace DialogMaker.Manager
             {
                 return;
             }
-            
-            Deserialize(_dialogSaveManager.LoadDialog(_saveValues.OpenedScenarioName));
+
+            _isReport = !_dialogSaveManager.SavedDialogNames.Contains(_saveValues.OpenedScenarioName);
+            var openedScenario =  _isReport
+                ? (ReportModel = _reportSaveManager.LoadReport(_saveValues.OpenedScenarioName)).ScenarioFile 
+                : _dialogSaveManager.LoadDialog(_saveValues.OpenedScenarioName);
+
+            Deserialize(openedScenario);
         }
 
         public IDialogSceneNode SpawnNode(DialogSceneModel sceneModel, DialogSceneMetadataModel metadataModel)
@@ -98,7 +108,15 @@ namespace DialogMaker.Manager
                 tuple.Item2.OnSelected(tuple.Item2 == sceneNode);
             }
 
-            _panelManager.OpenPanel<EditSceneSidePanel>();
+            if (_isReport)
+            {
+                _panelManager.OpenPanel<ReadOnlySceneSidePanel>();
+            }
+            else
+            {
+                _panelManager.OpenPanel<EditSceneSidePanel>();
+            }
+            
             OnNodeSelected?.Invoke(sceneNode);
         }
 
@@ -162,6 +180,23 @@ namespace DialogMaker.Manager
                     }
                     
                     connector.Item2.SetAnswerLineNode(nodesDict[connector.Item2.TransitionSceneId]);
+                }
+            }
+
+            if (_isReport)
+            {
+                foreach (var record in ReportModel.DialogRecords)
+                {
+                    nodesDict[record.DialogId].SetColor(Color.green);
+                    foreach (var (_, dialogConnector) in nodesDict[record.DialogId].Connectors)
+                    {
+                        if (dialogConnector.Index - 1 != record.AnswerIndex)
+                        {
+                            continue;
+                        }
+                        
+                        dialogConnector.SetColor(Color.green);
+                    }
                 }
             }
         }
