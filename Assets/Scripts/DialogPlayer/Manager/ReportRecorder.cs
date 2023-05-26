@@ -35,7 +35,7 @@ namespace DialogPlayer.Manager
         public void RecordAnswer(int id, int answerIndex)
         {
             _report.DialogRecords.Add(new DialogRecord { AnswerIndex = answerIndex, DialogId = id });
-            _report.DialogsTime.Add(id, DateTime.Now - _currentDialogStartTime);
+            _report.DialogsTime[id] = DateTime.Now - _currentDialogStartTime;
             _currentDialogStartTime = DateTime.Now;
         }
 
